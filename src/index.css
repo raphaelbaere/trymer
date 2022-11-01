@@ -5,9 +5,55 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #4caf50;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+header {
+  width: 100vw;
+  margin-bottom: 25px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+
+.logo {
+  width: 50px;
+  position: absolute;
+  top: 0px;
+}
+
+.counter {
+  font-size: 130px;
+  margin-top: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10%;
+  margin-left: -15px;
+}
+
+.time-input {
+  margin-bottom: 30px;
+}
+
+.counter-div {
+  height: 200px;
+}
+
+.start-pause-buttons {
+  display: flex;
+  gap: 10%;
+  margin-top: -20px;
+  margin-bottom: 20px;
 }
