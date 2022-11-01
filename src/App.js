@@ -20,7 +20,7 @@ class App extends React.Component {
   }
 
 
-  clockHeart = () => {
+  clocking = () => {
     const { counter } = this.state;
     if (counter >= 0) {
       const minutes = Math.floor(counter / 60);
@@ -53,7 +53,7 @@ class App extends React.Component {
         this.intervalId = setInterval(() => {
         this.setState((prevState) => ({
           counter: prevState.counter - 1
-        }), this.clockHeart)
+        }), this.clocking)
       }, 1000);
   }
 
@@ -134,7 +134,7 @@ class App extends React.Component {
         {control ? <Button onClick={this.onStartButtonClick} color="success" variant="contained">START</Button> : <Button onClick={this.onPauseButtonClick} color="success" variant="contained">PAUSE</Button>}
         </div>
         <div className="time-input">
-        <TextField onChange={this.onCustomTimeInputChange} value={inputTime} color="success" id="standard-basic" label="Custom Time" variant="standard" />
+        <TextField onChange={this.onCustomTimeInputChange} value={inputTime} color="success" id="standard-basic" label="Custom Time eg: 05:35" variant="standard" />
         </div>
         <div className="buttons">
         <Button onClick={this.onTimerButtonClick} color="success" variant="contained">05:00</Button>
