@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/%7Braphaelbaere.github.io%7D/static/css/main.a4bb9d92.css",
+    "main.js": "/%7Braphaelbaere.github.io%7D/static/js/main.8b734d4c.js",
+    "static/js/787.561fae7c.chunk.js": "/%7Braphaelbaere.github.io%7D/static/js/787.561fae7c.chunk.js",
+    "static/media/saphirecity.mp3": "/%7Braphaelbaere.github.io%7D/static/media/saphirecity.bad5c40c948a28dcb946.mp3",
+    "static/media/trybe.png": "/%7Braphaelbaere.github.io%7D/static/media/trybe.4ad46c34308f251e1f6a.png",
+    "index.html": "/%7Braphaelbaere.github.io%7D/index.html",
+    "main.a4bb9d92.css.map": "/%7Braphaelbaere.github.io%7D/static/css/main.a4bb9d92.css.map",
+    "main.8b734d4c.js.map": "/%7Braphaelbaere.github.io%7D/static/js/main.8b734d4c.js.map",
+    "787.561fae7c.chunk.js.map": "/%7Braphaelbaere.github.io%7D/static/js/787.561fae7c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a4bb9d92.css",
+    "static/js/main.8b734d4c.js"
+  ]
+}
