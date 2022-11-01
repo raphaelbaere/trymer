@@ -17,6 +17,7 @@ class App extends React.Component {
     minutesCounter: 0,
     secondsCounter: 0,
     audioControl: true,
+    resetDisabled: true,
   }
 
 
@@ -57,9 +58,22 @@ class App extends React.Component {
       }, 1000);
   }
 
+  onResetButtonClick = () => {
+    this.setState({
+      counter: '',
+      control: true,
+      inputTime: '',
+      minutesCounter: 0,
+      secondsCounter: 0,
+      audioControl: true,
+      resetDisabled: true,
+    })
+  }
+
   onPauseButtonClick = () => {
     this.setState((prevState) => ({
-      control: !prevState.control
+      control: !prevState.control,
+      resetDisabled: !prevState.resetDisabled
     }))
     clearInterval(this.intervalId)
   }
@@ -117,7 +131,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { minutesCounter, secondsCounter, control, inputTime, audioControl } = this.state
+    const { minutesCounter, secondsCounter, control, inputTime, audioControl, resetDisabled } = this.state
   return (
     <div className="App">
       <header>
@@ -132,6 +146,7 @@ class App extends React.Component {
         </div>
         <div className="start-pause-buttons">
         {control ? <Button onClick={this.onStartButtonClick} color="success" variant="contained">START</Button> : <Button onClick={this.onPauseButtonClick} color="success" variant="contained">PAUSE</Button>}
+        <Button disabled={resetDisabled} onClick={this.onResetButtonClick} color="error" variant="contained">RESET</Button>
         </div>
         <div className="time-input">
         <TextField onChange={this.onCustomTimeInputChange} value={inputTime} color="success" id="standard-basic" label="Custom Time eg: 05:35" variant="standard" />
