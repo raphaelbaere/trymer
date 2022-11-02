@@ -37,6 +37,12 @@ header {
   margin-top: 10px;
 }
 
+.counterEnd {
+  color: red;
+  font-size: 130px;
+  margin-top: 10px;
+}
+
 .buttons {
   display: flex;
   gap: 10%;

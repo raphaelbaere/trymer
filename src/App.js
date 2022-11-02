@@ -3,13 +3,17 @@ import React from 'react'
 import { Paper, Button, TextField } from '@mui/material'
 import Header from './Header';
 import trybelogo from './images/trybe.png'
-import saphireCityAudio from './components/Audios';
+import saphireCityAudio from './audios/saphirecity.mp3';
+import counterEndSound from './audios/alarm.wav'
+
+const SAPHIRECITY = new Audio(saphireCityAudio);
+const COUNTERENDSOUND = new Audio(counterEndSound)
+
+let inputTimeColor = 'success'
+let helperText = ''
+let pClassName = 'counter'
 
 class App extends React.Component {
-  constructor() {
-    super();
-  }
-
   state = {
     counter: '',
     control: true,
@@ -18,6 +22,7 @@ class App extends React.Component {
     secondsCounter: 0,
     audioControl: true,
     resetDisabled: true,
+    inputDisabled: false,
   }
 
 
@@ -37,19 +42,22 @@ class App extends React.Component {
     this.setState((prevState) => ({
       audioControl: !prevState.audioControl
     }))
-    saphireCityAudio.play();
+    SAPHIRECITY.play();
   }
 
   onAudioStopButton = () => {
     this.setState((prevState) => ({
       audioControl: !prevState.audioControl
     }))
-    saphireCityAudio.pause();
+    SAPHIRECITY.pause();
   }
 
   onStartButtonClick = () => {
+    pClassName = 'counter'
     this.setState((prevState) => ({
-      control: !prevState.control
+      control: !prevState.control,
+      inputDisabled: true,
+      resetDisabled: true,
     }))
         this.intervalId = setInterval(() => {
         this.setState((prevState) => ({
@@ -65,15 +73,16 @@ class App extends React.Component {
       inputTime: '',
       minutesCounter: 0,
       secondsCounter: 0,
-      audioControl: true,
       resetDisabled: true,
     })
   }
 
   onPauseButtonClick = () => {
+    pClassName = 'counter'
     this.setState((prevState) => ({
       control: !prevState.control,
-      resetDisabled: !prevState.resetDisabled
+      resetDisabled: false,
+      inputDisabled: !prevState.inputDisabled,
     }))
     clearInterval(this.intervalId)
   }
@@ -82,6 +91,7 @@ class App extends React.Component {
     switch(target.innerText) {
      case '05:00':
       this.setState({ counter: 300})
+      pClassName = 'counter'
       this.setState({
         minutesCounter: 5,
         secondsCounter: 0,
@@ -89,6 +99,7 @@ class App extends React.Component {
       break;
     case '10:00':
       this.setState({ counter: 600})
+      pClassName = 'counter'
       this.setState({
         minutesCounter: 10,
         secondsCounter: 0,
@@ -96,6 +107,7 @@ class App extends React.Component {
       break;
     case '15:00':
       this.setState({ counter: 900})
+      pClassName = 'counter'
       this.setState({
         minutesCounter: 15,
         secondsCounter: 0,
@@ -112,26 +124,42 @@ class App extends React.Component {
     this.setState({ inputTime: value, counter: value })
     const timeSplit = value.split(':');
     if (timeSplit.length > 1) {
+      helperText = ''
       minutes = timeSplit[0];
       seconds = timeSplit[1];
       this.setState({ counter: (parseInt(minutes) * 60) + parseInt(seconds)})
       this.setState({ minutesCounter: parseInt(minutes), secondsCounter: parseInt(seconds) })
     }
-    if (timeSplit.length < 1) {
-      this.setState({ inputTime: value, counter: value, minutesCounter: minutes, secondsCounter: seconds })
+    if (value.length < 1) {
+      helperText = ''
+      inputTimeColor = 'success'
+      pClassName = 'counter'
+      this.setState({ inputTime: value, counter: '0', minutesCounter: minutes, secondsCounter: seconds })
     }
   }
 
-  componentDidUpdate() {
-    const { counter } = this.state;
-    if (counter === 0) {
+  componentDidUpdate(prevProps, prevState) {
+    const { counter, inputTime } = this.state;
+    if (prevState.counter && counter === 0) {
       clearInterval(this.intervalId);
-      alert('Seu tempo acabou!');
+      this.setState({
+      control: true,
+      resetDisabled: true,
+      inputDisabled: false,
+      counter: '',
+      inputTime: '',
+    })
+    pClassName = 'counterEnd'
+    COUNTERENDSOUND.play()
+    }
+    if (inputTime.match(/([A-Z])/gi)) {
+      helperText = 'Incorrect entry'
+      inputTimeColor = 'error'
     }
   }
 
   render() {
-    const { minutesCounter, secondsCounter, control, inputTime, audioControl, resetDisabled } = this.state
+    const { minutesCounter, secondsCounter, control, inputTime, audioControl, resetDisabled, inputDisabled } = this.state
   return (
     <div className="App">
       <header>
@@ -142,19 +170,19 @@ class App extends React.Component {
       <main>
       <Paper elevation={1} sx={{ width: 400, height: 400, marginBottom: -1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
         <div className="counter-div">
-          <p className="counter">{minutesCounter.toString().padStart(2, "0")}:{secondsCounter.toString().padStart(2, "0")}</p>
+          <p className={pClassName}>{minutesCounter.toString().padStart(2, "0")}:{secondsCounter.toString().padStart(2, "0")}</p>
         </div>
         <div className="start-pause-buttons">
         {control ? <Button onClick={this.onStartButtonClick} color="success" variant="contained">START</Button> : <Button onClick={this.onPauseButtonClick} color="success" variant="contained">PAUSE</Button>}
         <Button disabled={resetDisabled} onClick={this.onResetButtonClick} color="error" variant="contained">RESET</Button>
         </div>
         <div className="time-input">
-        <TextField onChange={this.onCustomTimeInputChange} value={inputTime} color="success" id="standard-basic" label="Custom Time eg: 05:35" variant="standard" />
+        <TextField helperText={helperText} disabled={inputDisabled} onChange={this.onCustomTimeInputChange} value={inputTime} color={inputTimeColor} id="standard-basic" label="Custom Time eg.: 05:35" variant='standard' />
         </div>
         <div className="buttons">
-        <Button onClick={this.onTimerButtonClick} color="success" variant="contained">05:00</Button>
-        <Button onClick={this.onTimerButtonClick} color="success" variant="contained">10:00</Button>
-        <Button onClick={this.onTimerButtonClick} color="success" variant="contained">15:00</Button>
+        <Button disabled={inputDisabled} onClick={this.onTimerButtonClick} color="success" variant="contained">05:00</Button>
+        <Button disabled={inputDisabled} onClick={this.onTimerButtonClick} color="success" variant="contained">10:00</Button>
+        <Button disabled={inputDisabled} onClick={this.onTimerButtonClick} color="success" variant="contained">15:00</Button>
         </div>
       </Paper>
       <div className="media">
