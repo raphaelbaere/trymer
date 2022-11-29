@@ -181,6 +181,12 @@ class App extends React.Component {
           body.style.backgroundImage = '';
           body.style.backgroundColor = '#4caf50';
         break;
+        case 'purple':
+          body.style.backgroundImage = 'linear-gradient(to left, #0f0c29, #302b63, #24243e)';
+        break;
+        case 'red':
+          body.style.backgroundImage = 'linear-gradient(to left, #870000, #190a05)';
+          break;
         default:
       }
     })

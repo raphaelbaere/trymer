@@ -26,6 +26,8 @@ export default class SelectEL extends Component {
           <MenuItem value={'black'}>Black</MenuItem>
           <MenuItem value={'pink'}>Pink</MenuItem>
           <MenuItem value={'blue'}>Blue</MenuItem>
+          <MenuItem value={'purple'}>Purple</MenuItem>
+          <MenuItem value={'red'}>Red</MenuItem>
         </Select>
       </FormControl>
     </Box>
