@@ -5,7 +5,9 @@ import Header from './Header';
 import trybelogo from './images/trybe.png'
 import saphireCityAudio from './audios/saphirecity.mp3';
 import counterEndSound from './audios/alarm.wav'
+import SelectEL from './components/SelectEL';
 
+const body = document.querySelector('body');
 const SAPHIRECITY = new Audio(saphireCityAudio);
 const COUNTERENDSOUND = new Audio(counterEndSound)
 
@@ -23,6 +25,7 @@ class App extends React.Component {
     audioControl: true,
     resetDisabled: true,
     inputDisabled: false,
+    theme: 'default'
   }
 
 
@@ -127,6 +130,7 @@ class App extends React.Component {
       helperText = ''
       minutes = timeSplit[0];
       seconds = timeSplit[1];
+      pClassName = 'counter'
       this.setState({ counter: (parseInt(minutes) * 60) + parseInt(seconds)})
       this.setState({ minutesCounter: parseInt(minutes), secondsCounter: parseInt(seconds) })
     }
@@ -158,13 +162,39 @@ class App extends React.Component {
     }
   }
 
+  handleChange = ({ target }) => {
+    const themeSelected = target.value;
+    this.setState({
+      theme: themeSelected,
+    }, () => {
+      switch (this.state.theme) {
+        case 'black':
+          body.style.backgroundImage = 'linear-gradient(to left, #434343, black)';
+        break;
+        case 'pink':
+          body.style.backgroundImage = 'linear-gradient(to left, rgb(242, 112, 156), rgb(255, 148, 114))';
+        break;
+        case 'blue':
+          body.style.backgroundImage = 'linear-gradient(to left, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% )';
+        break;
+        case 'default':
+          body.style.backgroundImage = '';
+          body.style.backgroundColor = '#4caf50';
+        break;
+        default:
+      }
+    })
+  }
+
   render() {
-    const { minutesCounter, secondsCounter, control, inputTime, audioControl, resetDisabled, inputDisabled } = this.state
+    const { minutesCounter, secondsCounter, control, inputTime, audioControl, resetDisabled, inputDisabled, theme } = this.state
   return (
     <div className="App">
       <header>
         <img src={trybelogo} alt="logo" className="logo" />
         <Header color="secondary" position="fixed" sx={{ width: 100 }} />
+        <p className='copyright'><a href="https://www.linkedin.com/in/raphael-baere/">Raphael Baere</a> © with <a href="https://pt-br.reactjs.org/">React</a> in 2022</p>
+        <SelectEL theme={theme} handleChange={this.handleChange}/>
       </header>
       <div className="main">
       <main>
@@ -190,8 +220,6 @@ class App extends React.Component {
       </div>
       </main>
       </div>
-      <footer>
-      </footer> 
     </div>
   );
 }}
