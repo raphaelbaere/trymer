@@ -1,4 +1,4 @@
-# Cronometer Website
+# Trymer APP
 
 This is a timer app project made by me using React, JavaScript, HTML, and CSS. The website allows users to set timers for different purposes such as exercise, work, and relaxation.
 ## Features
